@@ -33,6 +33,6 @@
       :hosted-zone-id (:id zone)
       :change-batch (create-change hostname (external-ip)))))
 
-(defn- main [& args] 
+(defn -main [& args] 
   (update-route53 (first args)))
 

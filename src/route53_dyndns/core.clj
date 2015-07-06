@@ -1,6 +1,7 @@
 (ns route53-dyndns.core
   (:use [amazonica.aws.route53])
-  (:import [com.amazonaws.services.route53.model ResourceRecord ResourceRecordSet Change ChangeBatch]))
+  (:import [com.amazonaws.services.route53.model ResourceRecord ResourceRecordSet Change ChangeBatch])
+  (:gen-class))
 
 (defn list-zone-names []
   (let [zones (list-hosted-zones)]
@@ -32,6 +33,6 @@
       :hosted-zone-id (:id zone)
       :change-batch (create-change hostname (external-ip)))))
 
-(defn- main [&args] 
+(defn- main [& args] 
   (update-route53 (first args)))
 

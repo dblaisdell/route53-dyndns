@@ -4,4 +4,5 @@
   :license {:name "GPL v2"
             :url "https://www.gnu.org/licenses/gpl-2.0.txt"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [amazonica "0.3.28"]])
+                 [amazonica "0.3.28"]]
+  :main route53-dyndns.core)

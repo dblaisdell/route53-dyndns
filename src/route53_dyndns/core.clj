@@ -18,12 +18,20 @@
 (defn external-ip []
   (clojure.string/trim (slurp "http://icanhazip.com/")))
 
+(defn hosted-zone-name [hostname]
+  (let [host (reverse (clojure.string/split hostname #"\."))]
+    (str (second host) "." (first host) ".")))
 
-;(change-resource-record-sets 
-;  :hosted-zone-id "Z1SFTI1M7NYHOB" 
-;  :change-batch (create-change "test.digitaljedi.com" (external-ip)))
+(defn hosted-zone [hostname]
+  (let [name (hosted-zone-name hostname)]
+    (first (filter #(= (:name %) name) (:hosted-zones (list-hosted-zones))))))
 
-;To make the above work
-;1) Convert hostname to domain
-;2) Resolve domain zoneid
+(defn update-route53 [hostname]
+  (let [zone (hosted-zone hostname)]
+    (change-resource-record-sets 
+      :hosted-zone-id (:id zone)
+      :change-batch (create-change hostname (external-ip)))))
+
+(defn- main [&args] 
+  (update-route53 (first args)))
 
